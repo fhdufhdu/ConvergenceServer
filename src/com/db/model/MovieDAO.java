@@ -23,6 +23,7 @@ public class MovieDAO extends DAO
     {
         String insert_sql = "insert into movies(title, release_date, is_current, plot, poster_path, stillcut_path, trailer_path, director, actor, min) values(?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         
+        // 중복 체크
         if (checkMovie(new_mov) != 0)
         {
             ps.close();
@@ -104,6 +105,7 @@ public class MovieDAO extends DAO
         return temp_list;
     }
     
+    // 현재 상영중인 영화 가져오기
     public ArrayList<MovieDTO> getCurrentMovieList() throws DAOException, SQLException
     {
         ArrayList<MovieDTO> temp_list = new ArrayList<MovieDTO>();
@@ -133,6 +135,7 @@ public class MovieDAO extends DAO
         return temp_list;
     }
     
+    // 상영예정작 영화 가져오기
     public ArrayList<MovieDTO> getSoonMovieList() throws DAOException, SQLException
     {
         ArrayList<MovieDTO> temp_list = new ArrayList<MovieDTO>();
@@ -162,66 +165,7 @@ public class MovieDAO extends DAO
         return temp_list;
     }
     
-    public ArrayList<MovieDTO> getMovieListForType(String type) throws DAOException, SQLException
-    {
-        ArrayList<MovieDTO> temp_list = new ArrayList<MovieDTO>();
-        String insert_sql = "select * from movies where is_current = ?";
-        ps = conn.prepareStatement(insert_sql);
-        
-        ps.setString(1, type);
-        
-        rs = ps.executeQuery();
-        while (rs.next())
-        {
-            String id = rs.getString("id");
-            String title = rs.getString("title");
-            String release_date = rs.getDate("release_date").toString();
-            String is_current = rs.getString("is_current");
-            String plot = rs.getString("plot");
-            String poster_path = rs.getString("poster_path");
-            String stillcut_path = rs.getString("stillcut_path");
-            String trailer_path = rs.getString("trailer_path");
-            String director = rs.getString("director");
-            String actor = rs.getString("actor");
-            int min = rs.getInt("min");
-            temp_list.add(new MovieDTO(id, title, release_date, is_current, plot, poster_path, stillcut_path, trailer_path, director, actor, min));
-        }
-        
-        rs.close();
-        ps.close();
-        
-        return temp_list;
-    }
-    
-    public ArrayList<MovieDTO> getAllMovieList() throws DAOException, SQLException
-    {
-        ArrayList<MovieDTO> temp_list = new ArrayList<MovieDTO>();
-        String insert_sql = "select * from movies";
-        ps = conn.prepareStatement(insert_sql);
-        
-        rs = ps.executeQuery();
-        while (rs.next())
-        {
-            String id = rs.getString("id");
-            String title = rs.getString("title");
-            String release_date = rs.getDate("release_date").toString();
-            String is_current = rs.getString("is_current");
-            String plot = rs.getString("plot");
-            String poster_path = rs.getString("poster_path");
-            String stillcut_path = rs.getString("stillcut_path");
-            String trailer_path = rs.getString("trailer_path");
-            String director = rs.getString("director");
-            String actor = rs.getString("actor");
-            int min = rs.getInt("min");
-            temp_list.add(new MovieDTO(id, title, release_date, is_current, plot, poster_path, stillcut_path, trailer_path, director, actor, min));
-        }
-        
-        rs.close();
-        ps.close();
-        
-        return temp_list;
-    }
-    
+    // 해당 영화 아이디에 맞는 영화 요소 가져오기
     public MovieDTO getMovie(String mid) throws DAOException, SQLException
     {
         String insert_sql = "select * from movies where id = ?";
@@ -254,6 +198,7 @@ public class MovieDAO extends DAO
     {
         String insert_sql = "update movies set title = ?, release_date = ?, is_current = ?, plot = ?, poster_path = ?, stillcut_path = ?, trailer_path = ? , director = ? , actor = ? , min = ?  where id = ?";
         
+        // 중복 체크
         if (checkMovie(mov) > 0)
         {
             ps.close();
@@ -293,36 +238,5 @@ public class MovieDAO extends DAO
         System.out.println("변경된 row : " + r);
         
         ps.close();
-    }
-    
-    public ArrayList<MovieDTO> getMemberMovie(String mem_id) throws DAOException, SQLException
-    {
-        ArrayList<MovieDTO> temp_list = new ArrayList<MovieDTO>();
-        String insert_sql = "select * from movies where id in (select movie_id from timetables where id in (select distinct ttable_id from reservations where member_id = ? and cancel = 0))";
-        ps = conn.prepareStatement(insert_sql);
-        
-        ps.setString(1, mem_id);
-        
-        rs = ps.executeQuery();
-        while (rs.next())
-        {
-            String id = rs.getString("id");
-            String title = rs.getString("title");
-            String release_date = rs.getDate("release_date").toString();
-            String is_current = rs.getString("is_current");
-            String plot = rs.getString("plot");
-            String poster_path = rs.getString("poster_path");
-            String stillcut_path = rs.getString("stillcut_path");
-            String trailer_path = rs.getString("trailer_path");
-            String director = rs.getString("director");
-            String actor = rs.getString("actor");
-            int min = rs.getInt("min");
-            temp_list.add(new MovieDTO(id, title, release_date, is_current, plot, poster_path, stillcut_path, trailer_path, director, actor, min));
-        }
-        
-        rs.close();
-        ps.close();
-        
-        return temp_list;
     }
 }

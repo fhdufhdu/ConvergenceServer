@@ -24,6 +24,7 @@ public class TimeTableDAO extends DAO
         {
             String insert_sql = "call set_timetable_elem(?, ?, ?, ?, ?, ?)";
             
+            // 중복 체크
             if (checkTimeTable(elem) != 0)
             {
                 ps.close();
@@ -51,7 +52,7 @@ public class TimeTableDAO extends DAO
         }
     }
     
-    // 시간과 날짜 중복되는지 확인해야함
+    // 시간과 날짜 중복체크
     private int checkTimeTable(TimeTableDTO elem) throws DAOException, SQLException
     {
         try
@@ -123,6 +124,7 @@ public class TimeTableDAO extends DAO
         return null;
     }
     
+    // 영화관에 해당하는 상영시간표 출력
     public ArrayList<TimeTableDTO> getTimeTableList(TimeTableDTO elem, String theater_id) throws DAOException, SQLException
     {
         try
@@ -162,6 +164,7 @@ public class TimeTableDAO extends DAO
         throw new DAOException("not found result of theaters");
     }
     
+    // 상영시간표 요소 획득
     public TimeTableDTO getTimeTable(String tid) throws DAOException, SQLException
     {
         try
@@ -194,6 +197,7 @@ public class TimeTableDAO extends DAO
         throw new DAOException("not found result of theaters");
     }
     
+    // 영화의 예매율 확인
     public double getRsvRate(String movie_id) throws DAOException, SQLException
     {
         try

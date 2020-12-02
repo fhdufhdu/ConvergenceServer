@@ -11,19 +11,6 @@ public class TheaterDTO extends DTO
     private int total_screen;
     private int total_seats;
     
-    public TheaterDTO(String name, String address, int total_screen, int total_seats)
-    {
-        this.name = name;
-        this.address = address;
-        this.total_screen = total_screen;
-        this.total_seats = total_seats;
-    }
-    
-    public TheaterDTO()
-    {
-        
-    }
-    
     public TheaterDTO(String id, String name, String address, int total_screen, int total_seats)
     {
         this.id = id;

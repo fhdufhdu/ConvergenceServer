@@ -11,11 +11,6 @@ public class ReviewDTO
     private String text;
     private Timestamp write_time;
     
-    public ReviewDTO()
-    {
-        
-    }
-    
     public ReviewDTO(String id, String member_id, String movie_id, int star, String text, String write_time)
     {
         this.id = id;

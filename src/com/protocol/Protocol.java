@@ -92,10 +92,6 @@ public class Protocol
 	
 	// 영화
 	// 영화 검색은 관리자 프로토콜과 동일
-	//public static final String CS_REQ_MOVIEPRESENT_VIEW = "4-4"; // 현재상영작 정보 요청
-	//public static final String SC_RES_MOVIEPRESENT_VIEW = "5-8"; // 현재상영작 정보 요청 응답
-	//public static final String CS_REQ_MOVIEFUTURE_VIEW = "4-5"; // 상영예정작 정보 요청
-	//public static final String SC_RES_MOVIEFUTURE_VIEW = "5-A"; // 상영예정작 정보 요청 응답
 	public static final String CS_REQ_MOVIEDETAIL_VIEW = "4-6"; // 영화 상세정보 요청
 	public static final String SC_RES_MOVIEDETAIL_VIEW = "5-C"; // 영화 상세정보 요청 응답
 	public static final String CS_REQ_MOVIESUB_VIEW = "4-4"; // 영화 서브 정보 요청
@@ -128,4 +124,8 @@ public class Protocol
 	public static final String SC_RES_USERRESERVATION_VIEW = "5-1C"; // 사용자 예매 내역 요청 응답
 	public static final String CS_REQ_RESERVATION_DELETE = "6-2"; // 예매 취소 요청
 	public static final String SC_RES_RESERVATION_DELETE = "7-4"; // 예매 취소 요청 응답
+	
+	// 좌석 정보 요청
+	public static final String CS_REQ_SEAT_VIEW = "4-30"; // 좌석 정보 요청
+	public static final String SC_RES_SEAT_VIEW = "5-60"; // 좌석 정보 요청 응답
 }

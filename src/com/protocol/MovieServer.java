@@ -588,6 +588,36 @@ public class MovieServer extends Thread
 									break;
 								}
 							}
+							
+							case Protocol.CS_REQ_SEAT_VIEW:
+							{
+								try
+								{
+									System.out.println("클라이언트가 좌석 정보를 요청하였습니다.");
+									String timetable_id = packetArr[2];
+									String row_list ="";
+									String col_list ="";
+									
+									ReservationDAO rDao = new ReservationDAO();
+									Iterator<ReservationDTO> r_iter = rDao.getRsvListFromTT(timetable_id).iterator();
+									
+									while (r_iter.hasNext())
+						            {
+						                ReservationDTO rDto = r_iter.next();
+						                row_list += Integer.toString(rDto.getScreenRow()) + "|";
+						                col_list += Integer.toString(rDto.getScreenCol()) + "|";
+						            }
+									
+									writePacket(Protocol.PT_RES_VIEW + "`" + Protocol.SC_RES_SEAT_VIEW + "`1`" + row_list + "`" + col_list);
+									break;
+								}
+								catch (Exception e)
+								{
+									e.printStackTrace();
+									writePacket(Protocol.PT_RES_VIEW + "`" + Protocol.SC_RES_SEAT_VIEW + "`2");
+									break;
+								}
+							}
 						}
 					}
 					
@@ -948,8 +978,7 @@ public class MovieServer extends Thread
 									conn.setAutoCommit(true);
 									writePacket(Protocol.PT_RES_RENEWAL + "`" + Protocol.SC_RES_ADMINRESERVATION_ADD + "`4");
 									break;
-								}
-								finally
+								} finally
 								{
 									conn.setAutoCommit(true);
 								}
@@ -995,8 +1024,7 @@ public class MovieServer extends Thread
 									e.printStackTrace();
 									writePacket(Protocol.PT_RES_RENEWAL + "`" + Protocol.SC_RES_RESERVATION_ADD + "`2");
 									break;
-								}
-								finally
+								} finally
 								{
 									conn.setAutoCommit(true);
 								}
@@ -1026,8 +1054,7 @@ public class MovieServer extends Thread
 									System.out.println("예매 취소 실패");
 									writePacket(Protocol.PT_RES_RENEWAL + "`" + Protocol.SC_RES_RESERVATION_DELETE + "`2");
 									break;
-								}
-								finally
+								} finally
 								{
 									conn.setAutoCommit(true);
 								}
@@ -1171,8 +1198,7 @@ public class MovieServer extends Thread
 									e.printStackTrace();
 									conn.rollback(sp);
 									break;
-								}
-								finally
+								} finally
 								{
 									conn.setAutoCommit(true);
 								}

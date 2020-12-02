@@ -1189,6 +1189,7 @@ public class MovieServer extends Thread
 										writePacket(Protocol.PT_RES_RENEWAL + "`" + Protocol.SC_RES_PAYMENT_ADD + "`4");
 									e.printStackTrace();
 									conn.rollback(sp);
+									break;
 								}
 								finally
 								{

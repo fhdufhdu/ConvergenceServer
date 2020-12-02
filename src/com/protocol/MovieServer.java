@@ -43,6 +43,7 @@ public class MovieServer extends Thread
 	public static int cnt = 1;
 	BufferedReader br = null;
 	BufferedWriter bw = null;
+	private int price;
 	
 	public MovieServer(Socket socket) throws ClassNotFoundException, SQLException
 	{
@@ -939,7 +940,7 @@ public class MovieServer extends Thread
 									for (String col : col_list)
 										colArr.add(Integer.valueOf(col));
 									
-									int price = rDao.addPreRsv(member, timetable_id, rowArr, colArr);
+									price = rDao.addPreRsv(member, timetable_id, rowArr, colArr);
 									rDao.addConfimRsv(member, timetable_id, rowArr, colArr, account, bank);
 									conn.commit();
 									
@@ -985,7 +986,6 @@ public class MovieServer extends Thread
 									ReservationDAO rDao = new ReservationDAO();
 									String member_id = packetArr[2];
 									String timetable_id = packetArr[3];
-									int price = 0;
 									
 									ArrayList<Integer> rowArr = new ArrayList<Integer>();
 									String row_list[] = packetArr[4].split(",");
@@ -1189,6 +1189,7 @@ public class MovieServer extends Thread
 										writePacket(Protocol.PT_RES_RENEWAL + "`" + Protocol.SC_RES_PAYMENT_ADD + "`4");
 									e.printStackTrace();
 									conn.rollback(sp);
+									break;
 								}
 								finally
 								{

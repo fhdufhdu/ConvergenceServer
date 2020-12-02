@@ -13,6 +13,7 @@ public class MemberDTO extends DTO
     private Date birth;
     private String gender;
     
+    // 일반 사용자용
     public MemberDTO(String id, String role, String password, String account, String name, String phoneNumber, String birth, String gender)
     {
         this.id = id;
@@ -25,17 +26,13 @@ public class MemberDTO extends DTO
         this.gender = gender;
     }
     
+    // 관리자용
     public MemberDTO(String id, String role, String password, String account)
     {
         this.id = id;
         this.role = role;
         this.password = password;
         this.account = account;
-    }
-    
-    public MemberDTO()
-    {
-        
     }
     
     public String getId()

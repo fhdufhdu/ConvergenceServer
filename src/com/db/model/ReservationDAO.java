@@ -8,8 +8,6 @@ import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.sql.Types;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
 
 import oracle.sql.ARRAY;
 import oracle.sql.ArrayDescriptor;
@@ -28,7 +26,7 @@ public class ReservationDAO extends DAO
         rs = getRs();
     }
     
-    // 예약 추가
+    // 가예매(좌석 선택 이후 그 좌석을 잠구는 역할, 결제는 안함)
     public int addPreRsv(String member_id, String ttable_id, ArrayList<Integer> row_arr, ArrayList<Integer> col_arr) throws DAOException, SQLException
     {
         try
@@ -56,6 +54,7 @@ public class ReservationDAO extends DAO
         
     }
     
+    // 진예매(결제 이후 제대로된 예매 진행)
     public void addConfimRsv(String member_id, String ttable_id, ArrayList<Integer> row_arr, ArrayList<Integer> col_arr, String account, String bank) throws DAOException, SQLException
     {
         try
@@ -83,6 +82,7 @@ public class ReservationDAO extends DAO
         
     }
     
+    // 결제
     public void payment(String mem_accout, String bank, String passwd, int money) throws DAOException, SQLException
     {
         try
@@ -109,6 +109,7 @@ public class ReservationDAO extends DAO
         
     }
     
+    // 환불
     public void refund(String rid) throws DAOException, SQLException
     {
         String insert_sql = "call refund(?)";
@@ -123,6 +124,7 @@ public class ReservationDAO extends DAO
         ps.close();
     }
     
+    // 가예매 이후 1분동안 진예매를 시도하지 않을 시 자리잠김 해제
     public void clearRsv(String member_id, String ttable_id, ArrayList<Integer> row_arr, ArrayList<Integer> col_arr) throws DAOException, SQLException
     {
         String insert_sql = "call CLEAR_RSV(?, ?, ?, ?)";
@@ -139,27 +141,7 @@ public class ReservationDAO extends DAO
         cs.close();
     }
     
-    private int checkReservation(ReservationDTO rsv) throws DAOException, SQLException
-    {
-        String check_sql = "select * from reservations where ttable_id = ? and s_row = ? and s_col = ? and cancel = 0 and not(id = ?)";
-        ps = conn.prepareStatement(check_sql, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
-        
-        ps.setString(1, rsv.getTimeTableId());
-        ps.setInt(2, rsv.getScreenRow());
-        ps.setInt(3, rsv.getScreenCol());
-        ps.setString(4, rsv.getId());
-        
-        rs = ps.executeQuery();
-        rs.last();
-        int result_row = rs.getRow();
-        
-        rs.close();
-        ps.close();
-        
-        return result_row;
-        
-    }
-    
+    // 사용자가 영화를 예매한적 있는지 확인 - 리뷰 작성용(폐기)
     public boolean isRsvMovie(String mem_id, String mov_id) throws DAOException, SQLException
     {
         String check_sql = "select * from reservations where member_id = ? and ttable_id in (select id from timetables where movie_id = ?)";
@@ -209,6 +191,7 @@ public class ReservationDAO extends DAO
         return temp_list;
     }
     
+    // 해당 유저가 예매한 내역 출력
     public ArrayList<ReservationDTO> getRsvListFromMem(String mem_id) throws DAOException, SQLException
     {
         ArrayList<ReservationDTO> temp_list = new ArrayList<ReservationDTO>();
@@ -239,6 +222,7 @@ public class ReservationDAO extends DAO
         return temp_list;
     }
     
+    // 사용자, 영화, 영화관, 시작시간, 종료시간에 맞는 예매 리스트 출력
     public ArrayList<ReservationDTO> getRsvList(String mem_id, String movie_id, String theater_id, String start_time, String end_time) throws DAOException, SQLException
     {
         ArrayList<ReservationDTO> temp_list = new ArrayList<ReservationDTO>();
@@ -280,40 +264,7 @@ public class ReservationDAO extends DAO
         return temp_list;
     }
     
-    public ArrayList<ReservationDTO> getRsvList(String movie_id, String screen_id, String start_time, String end_time) throws DAOException, SQLException
-    {
-        ArrayList<ReservationDTO> temp_list = new ArrayList<ReservationDTO>();
-        String insert_sql = "select * from reservations where member_id like '%' and ttable_id in (select id from timetables where movie_id like ? and start_time between ? and ? and screen_id like ?)";
-        ps = conn.prepareStatement(insert_sql);
-        
-        ps.setString(1, movie_id);
-        ps.setTimestamp(2, Timestamp.valueOf(start_time));
-        ps.setTimestamp(3, Timestamp.valueOf(end_time));
-        ps.setString(4, screen_id);
-        
-        rs = ps.executeQuery();
-        while (rs.next())
-        {
-            String id = rs.getString("id");
-            String member_id = rs.getString("member_id");
-            String time_table_id = rs.getString("ttable_id");
-            int screen_row = rs.getInt("s_row");
-            int screen_col = rs.getInt("s_col");
-            int price = rs.getInt("price");
-            String type = rs.getString("type");
-            Timestamp rsv_time = rs.getTimestamp("rsv_time");
-            String account = rs.getString("account");
-            String bank = rs.getString("bank");
-            temp_list.add(new ReservationDTO(id, member_id, time_table_id, screen_row, screen_col, price, type, rsv_time, account, bank));
-        }
-        
-        rs.close();
-        ps.close();
-        
-        return temp_list;
-    }
-    
-    // 예약 취소
+    // 예매 취소
     public int cancelRsv(String id) throws DAOException, SQLException
     {
         String insert_sql = "call CANCEL_RSV(?, ?)";
@@ -329,6 +280,7 @@ public class ReservationDAO extends DAO
         return result;
     }
     
+    // 수익비율 통계
     public ArrayList<String> getBenefitSatistics(String start_date, String end_date) throws DAOException, SQLException
     {
         try
@@ -363,6 +315,7 @@ public class ReservationDAO extends DAO
         
     }
     
+    // 예매율 통계
     public ArrayList<String> getRsvSatistics(String start_date, String end_date) throws DAOException, SQLException
     {
         try
@@ -397,6 +350,7 @@ public class ReservationDAO extends DAO
         
     }
     
+    // 취소율 통계
     public ArrayList<String> getCancelSatistics(String start_date, String end_date) throws DAOException, SQLException
     {
         try

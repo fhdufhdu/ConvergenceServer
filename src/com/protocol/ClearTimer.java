@@ -4,8 +4,10 @@ import java.sql.Connection;
 import java.util.ArrayList;
 import java.util.TimerTask;
 
+import com.db.model.DAO;
 import com.db.model.ReservationDAO;
 
+//가예매의 자리 잠금을 해제하기 위한 타이머 스레드
 public class ClearTimer extends TimerTask
 {
     private String mem_id;
@@ -28,7 +30,7 @@ public class ClearTimer extends TimerTask
         {
             System.out.println("스레드 시작");
             ReservationDAO rDao = new ReservationDAO();
-            Connection conn = rDao.getConn();
+            Connection conn = DAO.getConn();
             rDao.clearRsv(mem_id, tt_id, row_list, col_list);
             conn.commit();
             return;

@@ -35,26 +35,6 @@ public class MovieDTO extends DTO
         this.min = min;
     }
     
-    public MovieDTO(String title, String releaseDate, String isCurrent, String plot, String posterPath, String stillCutPath, String trailerPath, String director, String actor, int min)
-    {
-        // releaseDate의 포맷은 "YYYY-MM-DD"
-        this.title = title;
-        this.releaseDate = Date.valueOf(releaseDate);
-        this.isCurrent = isCurrent;
-        this.plot = plot;
-        this.posterPath = posterPath;
-        this.stillCutPath = stillCutPath;
-        this.trailerPath = trailerPath;
-        this.director = director;
-        this.actor = actor;
-        this.min = min;
-    }
-    
-    public MovieDTO()
-    {
-        
-    }
-    
     public StringProperty getScreeningProperty()
     {
         if (isCurrent.equals("0"))

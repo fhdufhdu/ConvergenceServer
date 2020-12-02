@@ -22,14 +22,9 @@ public class ScreenDAO extends DAO
     {
         String insert_sql = "call add_screen(?, ?, ?, ?, ?)";
         
-        /*
-         * TheaterDTO temp = new TheaterDTO(); TheaterDAO tempDao = new TheaterDAO();
-         * 
-         * temp.setId(screen.getTheaterId()); if(tempDao.checkTheaterID(temp) == 0) { //ps.close(); throw new DAOException("theater id not found"); }
-         */
+        // 중복체크
         if (checkScreen(screen) > 0)
         {
-            // ps.close();
             throw new DAOException("screen info duplicate found");
         }
         
@@ -48,7 +43,7 @@ public class ScreenDAO extends DAO
         ps.close();
     }
     
-    // 상영관 있는 지 체크
+    // 상영관 중복 체크
     private int checkScreen(ScreenDTO screen) throws DAOException, SQLException
     {
         String check_sql = "select * from screens where theater_id = ? and name = ? and not(id = ?)";
@@ -66,37 +61,6 @@ public class ScreenDAO extends DAO
         ps.close();
         
         return result_row;
-    }
-    
-    // 상영관 리스트 반환
-    public ArrayList<ScreenDTO> getScreenList(ScreenDTO screen) throws DAOException, SQLException
-    {
-        ArrayList<ScreenDTO> temp_list = new ArrayList<ScreenDTO>();
-        String insert_sql = "select * from screens where theater_id = ? and name = ? and total_capacity = ? and max_row = ? and max_col = ?";
-        
-        ps = conn.prepareStatement(insert_sql);
-        
-        ps.setString(1, screen.getTheaterId());
-        ps.setString(2, screen.getName());
-        ps.setInt(3, screen.getTotalCapacity());
-        ps.setInt(4, screen.getMaxRow());
-        ps.setInt(5, screen.getMaxCol());
-        
-        rs = ps.executeQuery();
-        while (rs.next())
-        {
-            String id = rs.getString("id");
-            String theater_id = rs.getString("theater_id");
-            String name = rs.getString("name");
-            int total_capacity = rs.getInt("total_capacity");
-            int max_row = rs.getInt("max_row");
-            int max_col = rs.getInt("max_col");
-            temp_list.add(new ScreenDTO(id, theater_id, name, total_capacity, max_row, max_col));
-        }
-        
-        ps.close();
-        
-        return temp_list;
     }
     
     // 상영관 리스트 반환
@@ -164,6 +128,7 @@ public class ScreenDAO extends DAO
         ps.close();
     }
     
+    // 상영관 요소 획득
     public ScreenDTO getScreenElem(String sid) throws DAOException, SQLException
     {
         String insert_sql = "select * from screens where id = ?";

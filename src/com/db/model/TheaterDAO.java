@@ -41,7 +41,7 @@ public class TheaterDAO extends DAO
         ps.close();
     }
     
-    // 해당하는 영화관이 있는지 판단
+    // 영화관 중복 확인
     private int checkTheater(TheaterDTO mt) throws DAOException, SQLException
     {
         String check_sql = "select * from theaters where (name = ? or address = ?) and not(id = ?)";
@@ -50,24 +50,6 @@ public class TheaterDAO extends DAO
         ps.setString(1, mt.getName());
         ps.setString(2, mt.getAddress());
         ps.setString(3, mt.getId());
-        
-        rs = ps.executeQuery();
-        rs.last();
-        int result_row = rs.getRow();
-        
-        rs.close();
-        ps.close();
-        
-        return result_row;
-    }
-    
-    // id가 존재하는지 파악하기
-    public int checkTheaterID(TheaterDTO mt) throws DAOException, SQLException
-    {
-        String check_sql = "select * from theaters where id = ?";
-        ps = conn.prepareStatement(check_sql, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
-        
-        ps.setString(1, mt.getId());
         
         rs = ps.executeQuery();
         rs.last();
@@ -103,54 +85,7 @@ public class TheaterDAO extends DAO
         return temp_list;
     }
     
-    // 조건에 맞는영화관 반환
-    public ArrayList<TheaterDTO> getTheaterList(TheaterDTO mt) throws DAOException, SQLException
-    {
-        ArrayList<TheaterDTO> temp_list = new ArrayList<TheaterDTO>();
-        String insert_sql = "select * from theaters where name like ? and address like ?";
-        ps = conn.prepareStatement(insert_sql);
-        
-        ps.setString(1, mt.getName());
-        ps.setString(2, mt.getAddress());
-        
-        rs = ps.executeQuery();
-        while (rs.next())
-        {
-            String id = rs.getString("id");
-            String name = rs.getString("name");
-            String address = rs.getString("address");
-            int total_screen = rs.getInt("total_screen");
-            int total_seats = rs.getInt("total_seat");
-            temp_list.add(new TheaterDTO(id, name, address, total_screen, total_seats));
-        }
-        
-        rs.close();
-        ps.close();
-        
-        return temp_list;
-    }
-    
-    public TheaterDTO getTheater(String theater_name) throws DAOException, SQLException
-    {
-        String insert_sql = "select * from theaters where name = ?";
-        ps = conn.prepareStatement(insert_sql);
-        
-        ps.setString(1, theater_name);
-        
-        rs = ps.executeQuery();
-        rs.next();
-        String id = rs.getString("id");
-        String name = rs.getString("name");
-        String address = rs.getString("address");
-        int total_screen = rs.getInt("total_screen");
-        int total_seats = rs.getInt("total_seat");
-        
-        rs.close();
-        ps.close();
-        
-        return new TheaterDTO(id, name, address, total_screen, total_seats);
-    }
-    
+    // 영화관 요소 얻기
     public TheaterDTO getTheaterElem(String tid) throws DAOException, SQLException
     {
         String insert_sql = "select * from theaters where id = ?";
@@ -196,7 +131,7 @@ public class TheaterDAO extends DAO
         ps.close();
     }
     
-    // 극장 삭제
+    // 영화관 삭제
     public void removeTheater(String id) throws DAOException, SQLException
     {
         String insert_sql = "delete from theaters where id = ?";

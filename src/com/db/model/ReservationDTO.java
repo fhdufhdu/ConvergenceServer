@@ -15,6 +15,7 @@ public class ReservationDTO extends DTO
     private String account;
     private String bank;
     
+    // 예매 시간 timestamp 버전
     public ReservationDTO(String id, String memberId, String timeTableId, int screenRow, int screenCol, int price, String type, Timestamp rsvTime, String account, String bank)
     {
         this.id = id;
@@ -29,6 +30,7 @@ public class ReservationDTO extends DTO
         this.bank = bank;
     }
     
+    // 예매 시간 string버전
     public ReservationDTO(String id, String memberId, String timeTableId, int screenRow, int screenCol, int price, String type, String rsvTime, String account, String bank)
     {
         this.id = id;

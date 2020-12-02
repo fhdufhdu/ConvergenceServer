@@ -455,7 +455,7 @@ public class MovieServer extends Thread
 								catch (Exception e)
 								{
 									e.printStackTrace();
-									writePacket(Protocol.PT_RES_VIEW + "`" + Protocol.SC_RES_RESERVATION_VIEW + "`2");
+									writePacket(Protocol.PT_RES_VIEW + "`" + Protocol.SC_RES_RESERVATION_VIEW + "`3");
 									break;
 								}
 							}

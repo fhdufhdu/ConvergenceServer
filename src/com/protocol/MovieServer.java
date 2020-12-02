@@ -943,11 +943,6 @@ public class MovieServer extends Thread
 									rDao.addConfimRsv(member, timetable_id, rowArr, colArr, account, bank);
 									conn.commit();
 									
-									Timer m_timer = new Timer();
-									ClearTimer m_task = new ClearTimer(member, timetable_id, rowArr, colArr);
-									
-									m_timer.schedule(m_task, 60000);
-									
 									System.out.println("관리자 예매 정보 등록 성공");
 									writePacket(Protocol.PT_RES_RENEWAL + "`" + Protocol.SC_RES_ADMINRESERVATION_ADD + "`1");
 									break;
@@ -1004,6 +999,11 @@ public class MovieServer extends Thread
 									
 									price = rDao.addPreRsv(member_id, timetable_id, rowArr, colArr);
 									conn.commit();
+									
+									Timer m_timer = new Timer();
+									ClearTimer m_task = new ClearTimer(member_id, timetable_id, rowArr, colArr);
+									
+									m_timer.schedule(m_task, 60000);
 									
 									System.out.println("회원 예매 성공");
 									writePacket(Protocol.PT_RES_RENEWAL + "`" + Protocol.SC_RES_RESERVATION_ADD + "`1`" + price);

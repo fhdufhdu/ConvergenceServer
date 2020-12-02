@@ -93,7 +93,7 @@ public class MovieServer extends Thread
 								writePacket(Protocol.PT_RES_LOGIN + "`1"); // 관리자
 							else
 								writePacket(Protocol.PT_RES_LOGIN + "`2"); // 사용자
-							
+								
 							System.out.println("로그인 성공"); // 성공시 인터페이스 홈 접속
 						}
 						catch (Exception e)
@@ -224,12 +224,12 @@ public class MovieServer extends Thread
 								{
 									System.out.println("클라이언트가 영화 리스트 요청을 보냈습니다.");
 									HashMap<String, String> info = new HashMap<String, String>();
-									info.put("title", packetArr[2]);	 	// 제목
-									info.put("start_date", packetArr[3]);	// 개봉일
-									info.put("end_date", packetArr[4]);		// 종료일
-									info.put("is_current", packetArr[5]);	// 0:상영 종료, 1:현재 상영작, 2:상영 예정작
-									info.put("director", packetArr[6]);		// 감독
-									info.put("actor", packetArr[7]);		// 배우
+									info.put("title", packetArr[2]); // 제목
+									info.put("start_date", packetArr[3]); // 개봉일
+									info.put("end_date", packetArr[4]); // 종료일
+									info.put("is_current", packetArr[5]); // 0:상영 종료, 1:현재 상영작, 2:상영 예정작
+									info.put("director", packetArr[6]); // 감독
+									info.put("actor", packetArr[7]); // 배우
 									String type = packetArr[8]; // 1:현재 상영작 리스트, 2:상영 예정작 리스트, 그외:입력된 영화 정보로 조회
 									
 									MovieDAO tDao = new MovieDAO();
@@ -278,7 +278,7 @@ public class MovieServer extends Thread
 									AccountDTO aDto = aDao.getAdminAccount("admin");
 									
 									String account = aDto.getAccount(); // 계좌
-									String bank = aDto.getBank();		// 은행
+									String bank = aDto.getBank(); // 은행
 									
 									System.out.println("클라이언트에게 계좌 정보를 보냅니다.");
 									writePacket(Protocol.PT_RES_VIEW + "`" + Protocol.SC_RES_ACCOUNT_VIEW + "`1`" + account + "`" + bank);
@@ -425,8 +425,8 @@ public class MovieServer extends Thread
 									}
 									else // 추가 정보에 따른 예매 리스트 조회
 									{
-										String mov_id = packetArr[3];		
-										String thea_id = packetArr[4];		
+										String mov_id = packetArr[3];
+										String thea_id = packetArr[4];
 										String start_date = packetArr[5];
 										String end_date = packetArr[6];
 										r_list = rDao.getRsvList(mem_id, mov_id, thea_id, start_date + " 00:00:00.0", end_date + " 23:59:00.0");
@@ -565,14 +565,14 @@ public class MovieServer extends Thread
 								try
 								{
 									System.out.println("클라이언트가 통계 정보를 요청하였습니다.");
-									String start_date = packetArr[2]; // 시작일 
+									String start_date = packetArr[2]; // 시작일
 									String end_date = packetArr[3]; // 종료일
 									String stt_list = ""; // 저장할 통계 정보 리스트
 									
 									ReservationDAO rDao = new ReservationDAO();
-									ArrayList<String> benefit_list = rDao.getBenefitSatistics(start_date, end_date); 	// 수익률
-									ArrayList<String> rsv_list = rDao.getRsvSatistics(start_date, end_date);			// 예매율
-									ArrayList<String> cancle_list = rDao.getCancelSatistics(start_date, end_date);		// 취소율
+									ArrayList<String> benefit_list = rDao.getBenefitSatistics(start_date, end_date); // 수익률
+									ArrayList<String> rsv_list = rDao.getRsvSatistics(start_date, end_date); // 예매율
+									ArrayList<String> cancle_list = rDao.getCancelSatistics(start_date, end_date); // 취소율
 									
 									for (String benefit_info : benefit_list)
 										stt_list += benefit_info + "|";
@@ -602,18 +602,18 @@ public class MovieServer extends Thread
 								{
 									System.out.println("클라이언트가 좌석 정보를 요청하였습니다.");
 									String timetable_id = packetArr[2]; // 상영시간표id
-									String row_list =""; // 예매된 행, 열 저장할 문자열
-									String col_list ="";
+									String row_list = ""; // 예매된 행, 열 저장할 문자열
+									String col_list = "";
 									
 									ReservationDAO rDao = new ReservationDAO();
 									Iterator<ReservationDTO> r_iter = rDao.getRsvListFromTT(timetable_id).iterator(); // 상영시간표에 해당하는 예매 리스트
 									
 									while (r_iter.hasNext()) // 예매된 좌석 저장
-						            {
-						                ReservationDTO rDto = r_iter.next();
-						                row_list += Integer.toString(rDto.getScreenRow()) + "|";
-						                col_list += Integer.toString(rDto.getScreenCol()) + "|";
-						            }
+									{
+										ReservationDTO rDto = r_iter.next();
+										row_list += Integer.toString(rDto.getScreenRow()) + "|";
+										col_list += Integer.toString(rDto.getScreenCol()) + "|";
+									}
 									
 									writePacket(Protocol.PT_RES_VIEW + "`" + Protocol.SC_RES_SEAT_VIEW + "`1`" + row_list + "`" + col_list);
 									System.out.println("좌석 정보 전송 성공");
@@ -744,11 +744,11 @@ public class MovieServer extends Thread
 								try
 								{
 									System.out.println("클라이언트가 상영관 등록 요청을 보냈습니다.");
-									String theater_id = packetArr[2]; 	// 상영관id
-									String name = packetArr[3];			// 상영관명
-									String capacity = packetArr[4];		// 총 수용 인원
-									String row = packetArr[5];			// 최대 행
-									String col = packetArr[6];			// 최대 열
+									String theater_id = packetArr[2]; // 상영관id
+									String name = packetArr[3]; // 상영관명
+									String capacity = packetArr[4]; // 총 수용 인원
+									String row = packetArr[5]; // 최대 행
+									String col = packetArr[6]; // 최대 열
 									
 									ScreenDAO sDao = new ScreenDAO();
 									ScreenDTO sDto = new ScreenDTO(DTO.EMPTY_ID, theater_id, name, Integer.valueOf(capacity), Integer.valueOf(row), Integer.valueOf(col));
@@ -823,16 +823,16 @@ public class MovieServer extends Thread
 								try
 								{
 									System.out.println("클라이언트가 영화 등록 요청을 보냈습니다.");
-									String title = packetArr[2]; 		// 영화제목
+									String title = packetArr[2]; // 영화제목
 									String release_date = packetArr[3]; // 개봉일
-									String is_current = packetArr[4]; 	// 상영 상태
-									String plot = packetArr[5]; 		// 줄거리
-									String poster = packetArr[6];		// 포스터경로
-									String stillCut = packetArr[7];		// 스틸컷경로
-									String trailer = packetArr[8];		// 트레일러경로
-									String director = packetArr[9];		// 감독
-									String actor = packetArr[10];		// 배우
-									String min = packetArr[11];			// 상영시간(분)
+									String is_current = packetArr[4]; // 상영 상태
+									String plot = packetArr[5]; // 줄거리
+									String poster = packetArr[6]; // 포스터경로
+									String stillCut = packetArr[7]; // 스틸컷경로
+									String trailer = packetArr[8]; // 트레일러경로
+									String director = packetArr[9]; // 감독
+									String actor = packetArr[10]; // 배우
+									String min = packetArr[11]; // 상영시간(분)
 									
 									// DTO에 데이터 삽입
 									MovieDAO mDao = new MovieDAO();
@@ -866,15 +866,15 @@ public class MovieServer extends Thread
 									// 각 필드들이 비어있는 지 판단한 후 데이터 집어넣음
 									MovieDAO mDao = new MovieDAO();
 									MovieDTO mDto = mDao.getMovie(packetArr[2]);
-									mDto.setTitle(packetArr[3]);		// 영화제목
-									mDto.setReleaseDate(packetArr[4]);	// 개봉일
-									mDto.setIsCurrent(packetArr[5]);	// 상영상태
-									mDto.setPlot(packetArr[6]);			// 줄거리
-									mDto.setPosterPath(packetArr[7]);	// 포스터경로
-									mDto.setStillCutPath(packetArr[8]);	// 스틸컷경로
-									mDto.setTrailerPath(packetArr[9]);	// 트레일러경로
-									mDto.setDirector(packetArr[10]);	// 감독
-									mDto.setActor(packetArr[11]);		// 배우
+									mDto.setTitle(packetArr[3]); // 영화제목
+									mDto.setReleaseDate(packetArr[4]); // 개봉일
+									mDto.setIsCurrent(packetArr[5]); // 상영상태
+									mDto.setPlot(packetArr[6]); // 줄거리
+									mDto.setPosterPath(packetArr[7]); // 포스터경로
+									mDto.setStillCutPath(packetArr[8]); // 스틸컷경로
+									mDto.setTrailerPath(packetArr[9]); // 트레일러경로
+									mDto.setDirector(packetArr[10]); // 감독
+									mDto.setActor(packetArr[11]); // 배우
 									mDto.setMin(Integer.parseInt(packetArr[12])); // 상영시간(분)
 									
 									mDao.changeMovie(mDto);
@@ -943,10 +943,10 @@ public class MovieServer extends Thread
 								{
 									System.out.println("관리자가 예매 등록 요청을 보냈습니다.");
 									ReservationDAO rDao = new ReservationDAO();
-									String member = packetArr[2];		// 회원id
-									String timetable_id = packetArr[3];	// 상영시간표id
-									String account = packetArr[6];		// 계좌번호
-									String bank = packetArr[7];			// 은행
+									String member = packetArr[2]; // 회원id
+									String timetable_id = packetArr[3]; // 상영시간표id
+									String account = packetArr[6]; // 계좌번호
+									String bank = packetArr[7]; // 은행
 									
 									ArrayList<Integer> rowArr = new ArrayList<Integer>();
 									String row_list[] = packetArr[4].split("|"); // 선택한 행 리스트
@@ -1002,16 +1002,16 @@ public class MovieServer extends Thread
 								{
 									System.out.println("회원이 예매 등록 요청을 보냈습니다.");
 									ReservationDAO rDao = new ReservationDAO();
-									String member_id = packetArr[2];	// 회원id
-									String timetable_id = packetArr[3];	// 상영시간표id
+									String member_id = packetArr[2]; // 회원id
+									String timetable_id = packetArr[3]; // 상영시간표id
 									
 									ArrayList<Integer> rowArr = new ArrayList<Integer>();
-									String row_list[] = packetArr[4].split("|"); // 선택한 행 리스트
+									String row_list[] = packetArr[4].split("\\|"); // 선택한 행 리스트
 									for (String row : row_list)
 										rowArr.add(Integer.valueOf(row));
 									
 									ArrayList<Integer> colArr = new ArrayList<Integer>();
-									String col_list[] = packetArr[5].split("|"); // 선택한 열 리스트
+									String col_list[] = packetArr[5].split("\\|"); // 선택한 열 리스트
 									for (String col : col_list)
 										colArr.add(Integer.valueOf(col));
 									
@@ -1177,15 +1177,14 @@ public class MovieServer extends Thread
 									String account = packetArr[6]; // 계좌번호
 									String bank = packetArr[7]; // 은행
 									String passwd = packetArr[8]; // 비밀번호
-									int price = 0;
 									
 									ArrayList<Integer> rowArr = new ArrayList<Integer>();
-									String row_list[] = packetArr[4].split(","); // 선택 행 리스트
+									String row_list[] = packetArr[4].split("\\|"); // 선택 행 리스트
 									for (String row : row_list)
 										rowArr.add(Integer.valueOf(row));
 									
 									ArrayList<Integer> colArr = new ArrayList<Integer>();
-									String col_list[] = packetArr[5].split(","); // 선택 열 리스트
+									String col_list[] = packetArr[5].split("\\|"); // 선택 열 리스트
 									for (String col : col_list)
 										colArr.add(Integer.valueOf(col));
 									

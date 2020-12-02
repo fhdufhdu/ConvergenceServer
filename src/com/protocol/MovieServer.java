@@ -40,7 +40,7 @@ public class MovieServer extends Thread
 {
 	Socket socket;
 	private static int currUser = 0;
-	public static int cnt = 10;
+	public static int cnt = 1;
 	BufferedReader br = null;
 	BufferedWriter bw = null;
 	

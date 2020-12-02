@@ -2,7 +2,7 @@ package com.protocol;
 
 public class Protocol
 {
-	// 프로토콜 타입에 관한 변수
+	// 프로토콜 타입
 	public static final String PT_EXIT = "0"; // 프로그램 종료
 	public static final String PT_REQ_LOGIN_INFO = "1"; // 로그인 정보 요청
 	public static final String PT_REQ_LOGIN = "2"; // 로그인 요청
@@ -12,6 +12,7 @@ public class Protocol
 	public static final String PT_REQ_RENEWAL = "6"; // 갱신 요청
 	public static final String PT_RES_RENEWAL = "7"; // 갱신 요청 응답
 	
+	// 프로토콜 코드
 	// 회원가입
 	public static final String CS_REQ_SIGNUP = "6-0"; // 회원가입 요청
 	public static final String SC_RES_SIGNUP = "7-0"; // 회원가입 요청 응답
@@ -54,8 +55,8 @@ public class Protocol
 	public static final String SC_RES_MOVIE_DELETE = "7-1E"; // 영화 삭제 요청 응답
 	
 	// 예매정보 관리
-	public static final String CS_REQ_RESERVATION_VIEW = "4-F"; // 관리자 예매 내역 요청
-	public static final String SC_RES_RESERVATION_VIEW = "5-1E"; // 관리자 예매 내역 요청 응답
+	public static final String CS_REQ_RESERVATION_VIEW = "4-F"; // 예매 내역 요청
+	public static final String SC_RES_RESERVATION_VIEW = "5-1E"; // 예매 내역 요청 응답
 	public static final String CS_REQ_ADMINRESERVATION_ADD = "6-14"; // 관리자 예매 요청
 	public static final String SC_RES_ADMINRESERVATION_ADD = "7-28"; // 관리자 예매 요청 응답
 	
@@ -80,20 +81,14 @@ public class Protocol
 	public static final String SC_RES_ACCOUNT_CHANGE = "7-24"; // 수입계좌 수정 요청 응답
 	
 	// 가격정보 수정
-	public static final String CS_REQ_PRICE_VIEW = "4-C"; // 시간대별 가격 정보 요청
-	public static final String SC_RES_PRICE_VIEW = "5-18"; // 시간대별 가격 정보 요청 응답
-	public static final String CS_REQ_PRICE_CHANGE = "6-13"; // 시간대별 가격 정보 요청
-	public static final String SC_RES_PRICE_CHANGE = "7-26"; // 시간대별 가격 정보 요청 응답
+	public static final String CS_REQ_PRICE_VIEW = "4-C"; // 가격 정보 요청
+	public static final String SC_RES_PRICE_VIEW = "5-18"; // 가격 정보 요청 응답
+	public static final String CS_REQ_PRICE_CHANGE = "6-13"; // 가격 정보 요청
+	public static final String SC_RES_PRICE_CHANGE = "7-26"; // 가격 정보 요청 응답
 	
-	// 사용자
-	// 영화관
-	public static final String CS_REQ_THEATERDETAIL_VIEW = "4-13"; // 사용자 영화관 상세정보 요청
-	public static final String SC_RES_THEATERDETAIL_VIEW = "5-26"; // 사용자 영화관 상세정보 요청 응답
+	// 회원
 	
 	// 영화
-	// 영화 검색은 관리자 프로토콜과 동일
-	public static final String CS_REQ_MOVIEDETAIL_VIEW = "4-6"; // 영화 상세정보 요청
-	public static final String SC_RES_MOVIEDETAIL_VIEW = "5-C"; // 영화 상세정보 요청 응답
 	public static final String CS_REQ_MOVIESUB_VIEW = "4-4"; // 영화 서브 정보 요청
 	public static final String SC_RES_MOVIESUB_VIEW = "5-8"; // 영화 서브 정보 요청 응답
 	
@@ -105,27 +100,17 @@ public class Protocol
 	public static final String CS_REQ_REVIEW_DELETE = "6-11"; // 평점 및 관람평 삭제 요청
 	public static final String SC_RES_REVIEW_DELETE = "7-22"; // 평점 및 관람평 삭제 요청 응답
 	
-	// 예매 - 상영시간표
-	public static final String CS_REQ_THEATERLIST_VIEW = "4-0"; // 예매_영화관 리스트 요청
-	public static final String SC_RES_THEATERLIST_VIEW = "5-0"; // 예매_영화관 리스트 요청 응답
-	public static final String CS_REQ_MOVIELIST_VIEW = "4-1"; // 예매_영화 리스트 요청
-	public static final String SC_RES_MOVIELIST_VIEW = "5-2"; // 예매_영화 리스트 요청 응답
-	public static final String CS_REQ_TIMETABLELIST_VIEW = "4-2"; // 예매_상영시간표 리스트 요청
-	public static final String SC_RES_TIMETABLELIST_VIEW = "5-4"; // 예매_상영시간표 리스트 요청 응답
-	public static final String CS_REQ_SEATLIST_VIEW = "4-3"; // 예매_좌석 리스트 요청
-	public static final String SC_RES_SEATLIST_VIEW = "5-6"; // 예매_좌석 리스트 요청 응답
-	public static final String CS_REQ_RESERVATION_ADD = "6-1"; // 예매 등록 요청
-	public static final String SC_RES_RESERVATION_ADD = "7-2"; // 예매 등록 요청 응답
+	// 예매
+	public static final String CS_REQ_RESERVATION_ADD = "6-1"; // 예매 요청
+	public static final String SC_RES_RESERVATION_ADD = "7-2"; // 예매 요청 응답
 	public static final String CS_REQ_PAYMENT_ADD = "6-3"; // 결제 요청
 	public static final String SC_RES_PAYMENT_ADD = "7-6"; // 결제 요청 응답
 	
 	// 예매 현황
-	public static final String CS_REQ_USERRESERVATION_VIEW = "4-E"; // 사용자 예매 내역 요청
-	public static final String SC_RES_USERRESERVATION_VIEW = "5-1C"; // 사용자 예매 내역 요청 응답
 	public static final String CS_REQ_RESERVATION_DELETE = "6-2"; // 예매 취소 요청
 	public static final String SC_RES_RESERVATION_DELETE = "7-4"; // 예매 취소 요청 응답
 	
-	// 좌석 정보 요청
+	// 좌석 정보
 	public static final String CS_REQ_SEAT_VIEW = "4-30"; // 좌석 정보 요청
 	public static final String SC_RES_SEAT_VIEW = "5-60"; // 좌석 정보 요청 응답
 }

@@ -57,16 +57,15 @@ public class TimeTableDAO extends DAO
     {
         try
         {
-            String check_sql = "select * from timetables where movie_id = ? and screen_id = ? and ((start_time between ? and ?) or (end_time between ? and ?)) and not(id = ?)";
+            String check_sql = "select * from timetables where screen_id = ? and ((start_time between ? and ?) or (end_time between ? and ?)) and not(id = ?)";
             ps = conn.prepareStatement(check_sql, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
             
-            ps.setString(1, elem.getMovieId());
-            ps.setString(2, elem.getScreenId());
-            ps.setTimestamp(3, elem.getStartTime());
-            ps.setTimestamp(4, elem.getEndTime());
-            ps.setTimestamp(5, elem.getStartTime());
-            ps.setTimestamp(6, elem.getEndTime());
-            ps.setString(7, elem.getId());
+            ps.setString(1, elem.getScreenId());
+            ps.setTimestamp(2, elem.getStartTime());
+            ps.setTimestamp(3, elem.getEndTime());
+            ps.setTimestamp(4, elem.getStartTime());
+            ps.setTimestamp(5, elem.getEndTime());
+            ps.setString(6, elem.getId());
             
             rs = ps.executeQuery();
             rs.last();

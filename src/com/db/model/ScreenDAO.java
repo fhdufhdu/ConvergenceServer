@@ -116,7 +116,7 @@ public class ScreenDAO extends DAO
     // 상영관 삭제
     public void removeScreen(String sid) throws DAOException, SQLException
     {
-        String insert_sql = "delete from screens where id = ?";
+        String insert_sql = "call remove_screen(?)";
         
         ps = conn.prepareStatement(insert_sql);
         

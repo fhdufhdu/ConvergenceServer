@@ -949,12 +949,12 @@ public class MovieServer extends Thread
 									String bank = packetArr[7]; // 은행
 									
 									ArrayList<Integer> rowArr = new ArrayList<Integer>();
-									String row_list[] = packetArr[4].split("|"); // 선택한 행 리스트
+									String row_list[] = packetArr[4].split("\\|"); // 선택한 행 리스트
 									for (String row : row_list)
 										rowArr.add(Integer.valueOf(row));
 									
 									ArrayList<Integer> colArr = new ArrayList<Integer>();
-									String col_list[] = packetArr[5].split("|"); // 선택한 열 리스트
+									String col_list[] = packetArr[5].split("\\|"); // 선택한 열 리스트
 									for (String col : col_list)
 										colArr.add(Integer.valueOf(col));
 									
